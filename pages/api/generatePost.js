@@ -9,10 +9,10 @@ export default async function handler(req, res) {
 
 const openai = new OpenAIApi(config);
 
+const { topic, keywords } = req.body;
+
 // hardcoded prompt for now
 
-const topic = "dog ownership";
-const keywords = "first-time dog owner, puppy, diet";
 
 // Note use other models for OET roleplay practice TTS which can
 // convert text into natural sounding speech.

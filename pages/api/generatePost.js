@@ -11,7 +11,6 @@ const openai = new OpenAIApi(config);
 
 const { topic, keywords } = req.body;
 
-// hardcoded prompt for now
 
 
 // Note use other models for OET roleplay practice TTS which can

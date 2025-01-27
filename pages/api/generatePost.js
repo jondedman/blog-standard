@@ -46,6 +46,39 @@ const response = await openai.createChatCompletion({
   // the syntax means if the first part is undefined, the second part is not executed. For example, if response.data is undefined, then here response.data.choices is not executed
   // console.log(response.data.choices[0]?.message?.content);
 
-  res.status(200).json({ postContent: response.data.choices[0]?.message?.content });
+  const postContent = response.data.choices[0]?.message?.content;
 
+  // this is only relevant for the SEO friendly title and meta description. Not needed for my OET roleplay practice TTS
+  const seoResponse = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo-1106",
+    messages: [
+      {
+      role: "system",
+      content: "You are an SEO friendly blog post generator called BlogStandard. you are designed to output JSON. Do not include html tags in your output."
+      },
+      {
+      role: "user",
+      content: `Generate an SEO friendly title and SEO friendly meta description for the following blog post: ${postContent}
+      ---
+      The output must be in the following format:
+      {
+      "title": "example title",
+      "metaDescription": "example meta description"
+      }
+      `
+      }
+    ],
+    response_format: {type: "json_object"} // this is important to get the response in JSON format
+    });
+
+    const { title, metaDescription } = seoResponse.data.choices[0]?.message?.content || {};
+
+    // const seoContent = seoResponse.data.choices[0]?.message?.content;
+
+  res.status(200).json({
+     post: {
+      postContent,
+      title,
+      metaDescription }
+    });
 }

@@ -1,6 +1,21 @@
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { OpenAIApi, Configuration } from "openai";
+import clientPromise from "../../lib/mongodb";
+import { getSession } from "@auth0/nextjs-auth0";
 
-export default async function handler(req, res) {
+export default withApiAuthRequired (async function handler(req, res) {
+  const { user } = await getSession(req, res);
+  const  client = await clientPromise;
+  const db = client.db("blogStandard");
+
+  const userProfile = await db.collection("users").findOne({
+    auth0Id: user.sub
+  });
+
+  if (!userProfile?.availableTokens ) {
+    res.status(403).json({ error: "Insufficient tokens" });
+    return;
+  }
   const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -72,7 +87,26 @@ const response = await openai.createChatCompletion({
 
     const { title, metaDescription } = seoResponse.data.choices[0]?.message?.content || {};
 
-    // const seoContent = seoResponse.data.choices[0]?.message?.content;
+    //  decrement the available tokens in the database
+   await db.collection("users").updateOne({
+      auth0Id: user.sub
+    },
+    {
+      $inc: {
+        availableTokens: -1
+      }
+    });
+
+    const post = await db.collection("posts").insertOne({
+      postContent,
+      title,
+      metaDescription,
+       topic,
+        keywords,
+        userId: userProfile._id,
+        createdAt: new Date(),
+    });
+
 
   res.status(200).json({
      post: {
@@ -80,4 +114,4 @@ const response = await openai.createChatCompletion({
       title,
       metaDescription }
     });
-}
+} );

@@ -88,7 +88,7 @@ const response = await openai.createChatCompletion({
     const { title, metaDescription } = seoResponse.data.choices[0]?.message?.content || {};
 
     //  decrement the available tokens in the database
-   await db.collection("users").updateOne({
+  await db.collection("users").updateOne({
       auth0Id: user.sub
     },
     {
@@ -97,21 +97,21 @@ const response = await openai.createChatCompletion({
       }
     });
 
+
     const post = await db.collection("posts").insertOne({
       postContent,
       title,
       metaDescription,
-       topic,
-        keywords,
-        userId: userProfile._id,
-        createdAt: new Date(),
+      topic,
+      keywords,
+      userId: userProfile._id,
+      createdAt: new Date(),
     });
+
+    console.log("Post at bottom", post);
 
 
   res.status(200).json({
-     post: {
-      postContent,
-      title,
-      metaDescription }
+     postId: post.insertedId,
     });
 } );

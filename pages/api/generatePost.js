@@ -85,7 +85,10 @@ const response = await openai.createChatCompletion({
     response_format: {type: "json_object"} // this is important to get the response in JSON format
     });
 
-    const { title, metaDescription } = seoResponse.data.choices[0]?.message?.content || {};
+    console.log("SEO Response", seoResponse.data.choices[0]?.message?.content);
+    const seoContent = seoResponse.data.choices[0]?.message?.content;
+    // note the use of JSON.parse to convert the JSON string into a JavaScript object
+    const { title, metaDescription } = JSON.parse(seoContent);
 
     //  decrement the available tokens in the database
   await db.collection("users").updateOne({
@@ -97,6 +100,7 @@ const response = await openai.createChatCompletion({
       }
     });
 
+console.log("checking title and meta", title, metaDescription);
 
     const post = await db.collection("posts").insertOne({
       postContent,

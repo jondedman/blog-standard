@@ -2,12 +2,36 @@ import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { AppLayout } from '../../components/AppLayout/AppLayout';
 import  clientPromise from '../../lib/mongodb';
 import { ObjectId } from 'mongodb';
+import Markdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 
 export default function Post(props) {
   console.log("Post props", props);
   return (
-    <div>
-      <h1>Dynamic post page</h1>
+    <div className="overflow-auto h-full">
+      <div className="max-w-screen-sm mx-auto">
+        <div className="test-sm font-bold mt-6 p-2 bg-stone-200 rounded-sm">
+          SEO title and meta description
+        </div>
+        <div className="p-4 my-2 border border-stone-200 rounded-md">
+          <div className="text-blue-600 text-2xl font-bold">{props.title}</div>
+          <div className="mt-2">{props.metaDescription}</div>
+          <div className="test-sm font-bold mt-6 p-2 bg-stone-200 rounded-sm">
+          Keywords
+        </div>
+        <div className="flex flex-wrap pt-2 gap-1">
+          {props.keywords.split(",").map((keyword, index) => (
+            <div key={index} className="p-2 rounded-full bg-slate-800 text-white ">
+            <FontAwesomeIcon icon={faHashtag}/>{keyword}
+          </div>
+          ))}
+        </div>
+        </div>
+        <Markdown>
+          {props.postContent || ""}
+        </Markdown>
+      </div>
     </div>
   );
 }

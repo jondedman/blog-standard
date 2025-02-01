@@ -100,8 +100,6 @@ const response = await openai.createChatCompletion({
       }
     });
 
-console.log("checking title and meta", title, metaDescription);
-
     const post = await db.collection("posts").insertOne({
       postContent,
       title,
@@ -111,8 +109,6 @@ console.log("checking title and meta", title, metaDescription);
       userId: userProfile._id,
       createdAt: new Date(),
     });
-
-    console.log("Post at bottom", post);
 
 
   res.status(200).json({

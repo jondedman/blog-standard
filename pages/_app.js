@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
   return (
     // Wrap the app with the UserProvider context provider for authentication
    <UserProvider >
-    <main className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body` }>{getLayout(<Component {...pageProps} />)}</main>
+    <main className={`${dmSans.variable} ${dmSerifDisplay.variable} font-body` }>{getLayout(<Component {...pageProps} />, pageProps)}</main>
 
   </UserProvider>
   );

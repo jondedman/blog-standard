@@ -2,9 +2,12 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0"
 import { AppLayout } from "../../components/AppLayout/AppLayout";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { getAppProps } from "../../utils/getAppProps";
 
 
 export default function NewPost(props) {
+  console.log("New page Post props", props.posts);
+
   const router = useRouter();
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
@@ -58,8 +61,11 @@ NewPost.getLayout = function getLayout(page, pageProps) {
   );
 }
 
-export const getServerSideProps = withPageAuthRequired (() => {
-  return {
-    props: {}, // will be passed to the page component as props
-  }
+export const getServerSideProps = withPageAuthRequired ({
+  async getServerSideProps(context) {
+    const props = await getAppProps(context);
+    return {
+      props,
+    };
+}
 });

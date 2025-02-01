@@ -5,9 +5,10 @@ import { ObjectId } from 'mongodb';
 import Markdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
+import { getAppProps } from '../../utils/getAppProps';
 
 export default function Post(props) {
-  console.log("Post props", props);
+  console.log("Post props", props.posts[8].title);
   return (
     <div className="overflow-auto h-full">
       <div className="max-w-screen-sm mx-auto">
@@ -42,8 +43,11 @@ Post.getLayout = function getLayout(page, pageProps) {
     </AppLayout>
   );
 }
+
+// note importance of protecting posts belonging to the user
 export const getServerSideProps = withPageAuthRequired ({
   async getServerSideProps(context) {
+    const props = await getAppProps(context);
     const userSession = await getSession(context.req, context.res);
     const client = await clientPromise;
     const db = client.db("blogStandard");
@@ -69,6 +73,7 @@ export const getServerSideProps = withPageAuthRequired ({
         title: post.title,
         metaDescription: post.metaDescription,
         keywords: post.keywords,
+        ...props,
       }
     }
   }

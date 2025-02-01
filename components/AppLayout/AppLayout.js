@@ -5,8 +5,11 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Logo } from '../Logo/Index';
 
-export const AppLayout = ({ children }) => {
+export const AppLayout = ({ children, ...rest }) => {
   const {user} = useUser();
+  console.log("APP PROPS", rest);
+  // console.log("rest", rest.post);
+
 
   console.log(user);
   return (

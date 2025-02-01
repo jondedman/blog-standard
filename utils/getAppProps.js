@@ -16,7 +16,9 @@ export const getAppProps = async (context) => {
     }
   }
 
-  const posts = await db.collection("posts").find({ userId: user._id }).toArray();
+  const posts = await db.collection("posts").find({ userId: user._id }).sort({
+    createdAt: -1
+  }).toArray();
   console.log("APP posts in getAppProps", posts);
   return {
     availableTokens: user.availableTokens,
@@ -25,6 +27,7 @@ export const getAppProps = async (context) => {
       created: createdAt.toString(),
       ...rest,
   } )),
+  postId: context.params?.postId || null,
 }
 
 }

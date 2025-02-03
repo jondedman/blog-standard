@@ -26,6 +26,17 @@ const openai = new OpenAIApi(config);
 
 const { topic, keywords } = req.body;
 
+if(!topic || !keywords) {
+  res.status(422).json({ error: "Missing required fields" });
+  return;
+}
+
+if(topic.length > 80 || keywords.length > 80) {
+  res.status(422).json({ error: "Fields too long" });
+  return;
+}
+
+
 
 
 // Note use other models for OET roleplay practice TTS which can

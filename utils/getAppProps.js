@@ -27,7 +27,7 @@ export const getAppProps = async (context) => {
     availableTokens: user.availableTokens,
     posts: posts.map(({createdAt, _id, userId, ...rest}) => ({
       _id: _id.toString(),
-      created: createdAt.toString(),
+      createdAt: createdAt.toString(),
       ...rest,
   } )),
   postId: context.params?.postId || null,

@@ -15,13 +15,13 @@ try {
 
   // console.log("req:",req.body);
 
-  const { lastPostDate } = req.body;
+  const { lastPostDate, getNewerPosts } = req.body;
   console.log("lastPostDate", lastPostDate);
 
   const posts = await db.collection("posts").find({
     userId: userProfile._id,
-    createdAt: { $lt: new Date(lastPostDate) },
-}).limit(10)
+    createdAt: { [getNewerPosts ? "$gt" : "$lt"]: new Date(lastPostDate) },
+}).limit(getNewerPosts ? 0 : 5)
 .sort({ createdAt: -1 })
 .toArray();
 console.log("line 38 in getPosts", posts);

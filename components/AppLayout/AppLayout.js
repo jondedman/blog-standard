@@ -8,14 +8,21 @@ import { useContext } from 'react';
 import PostsContext  from '../../context/postsContext';
 import { useEffect } from 'react';
 
-export const AppLayout = ({ children, availableTokens, posts: postsFromSSR, postId }) => {
+export const AppLayout = ({ children, availableTokens, posts: postsFromSSR, postId, postCreated }) => {
   const {user} = useUser();
 
   const { setPostsFromSSR, posts, getPosts, noMorePosts } = useContext(PostsContext);
 
   useEffect(() => {
     setPostsFromSSR(postsFromSSR);
-  }, [postsFromSSR, setPostsFromSSR]);
+    if(postId){
+      const exists = postsFromSSR.find(post => post._id === postId);
+      if(!exists){
+        getPosts({getNewerPosts: true, lastPostDate: postCreated});
+      }
+
+    }
+  }, [postsFromSSR, setPostsFromSSR, postId, postCreated, getPosts]);
 
 
   console.log(user);

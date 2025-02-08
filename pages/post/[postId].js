@@ -8,7 +8,7 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { getAppProps } from '../../utils/getAppProps';
 
 export default function Post(props) {
-  console.log("Post props", props.posts[8].title);
+  // console.log("Post props", props.posts[8].title);
   return (
     <div className="overflow-auto h-full">
       <div className="max-w-screen-sm mx-auto">

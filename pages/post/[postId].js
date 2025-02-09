@@ -6,13 +6,15 @@ import Markdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { getAppProps } from '../../utils/getAppProps';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
+import postsContext from '../../context/postsContext';
 
 export default function Post(props) {
   // console.log("Post props", props.posts[8].title);
   const router = useRouter();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const {deletePost} = useContext(postsContext);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -27,7 +29,7 @@ export default function Post(props) {
       console.log(json);
       console.log(json.success);
       if (json.success) {
-        console.log("json success!");
+        deletePost(props.id);
         router.replace('/post/new');
       }
     } catch (error) {

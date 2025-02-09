@@ -9,6 +9,18 @@ export const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [noMorePosts, setNoMorePosts] = useState(false);
 
+  const deletePost = useCallback((postId) => {
+    setPosts((value) => {
+      const newPosts = [];
+      value.forEach((post) => {
+        if (post._id !== postId) {
+        newPosts.push(post);
+      }
+      });
+      return newPosts;
+    });
+  }, []);
+
   const setPostsFromSSR = useCallback((postsFromSSR=[]) => {
     // setPosts(postsFromSSR);
     setPosts(value => {
@@ -54,7 +66,7 @@ export const PostsProvider = ({ children }) => {
   }, []);
 
   return (
-    <postsContext.Provider value={{ posts, setPostsFromSSR, getPosts, noMorePosts }}>
+    <postsContext.Provider value={{ posts, setPostsFromSSR, getPosts, noMorePosts, deletePost }}>
       {children}
     </postsContext.Provider>
   );

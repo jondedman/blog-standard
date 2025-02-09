@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { Logo } from '../Logo/Index';
+import { Logo } from '../Logo/Logo';
 import { useContext } from 'react';
 import PostsContext  from '../../context/postsContext';
 import { useEffect } from 'react';

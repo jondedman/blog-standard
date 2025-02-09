@@ -1,6 +1,6 @@
 import Image from "next/image";
 import HeroImage from "../public/hero.webp";
-import { Logo } from "../components/Logo/index";
+import { Logo } from "../components/Logo/Index";
 import Link from "next/link";
 
 

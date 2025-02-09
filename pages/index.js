@@ -1,6 +1,6 @@
 import Image from "next/image";
 import HeroImage from "../public/hero.webp";
-import { Logo } from "../components/Logo";
+import  Logo  from "../components/Logo";
 import Link from "next/link";
 
 export default function Home() {

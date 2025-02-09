@@ -3,6 +3,7 @@ import HeroImage from "../public/hero.webp";
 import { Logo } from "../components/Logo";
 import Link from "next/link";
 
+
 export default function Home() {
   return (
   <div className="w-screen h-screen overflow-hidden flex justify-center items-center relative">
